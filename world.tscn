@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckcctnv1ueuis"]
+
+[ext_resource type="PackedScene" uid="uid://07nmv1tlimfm" path="res://Player/player.tscn" id="2_g4pe6"]
+[ext_resource type="PackedScene" uid="uid://csietsv4fhmui" path="res://World/bush.tscn" id="2_jtipp"]
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2_g4pe6")]
+y_sort_enabled = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(0, 0, 48, 0, 47, 37, 45, 46, 16, 47, 18, 83, 36, 126, 24, 159, 83, 188, 110, 162, 170, 190, 275, 158, 337, 194, 332, 115, 441, 94, 480, 44, 449, 20, 444, 1, 522, 1, 524, 203, 0, 203)
+
+[node name="Bush" parent="." instance=ExtResource("2_jtipp")]
+position = Vector2(158, 45)
+
+[node name="Bush2" parent="." instance=ExtResource("2_jtipp")]
+position = Vector2(288, 35)
+
+[node name="Bush3" parent="." instance=ExtResource("2_jtipp")]
+position = Vector2(249, 111)
+
+[node name="Bush4" parent="." instance=ExtResource("2_jtipp")]
+position = Vector2(84, 120)
