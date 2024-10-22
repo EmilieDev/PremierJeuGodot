@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://07nmv1tlimfm"]
+[gd_scene load_steps=29 format=3 uid="uid://07nmv1tlimfm"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_ipixe"]
 [ext_resource type="Texture2D" uid="uid://7ye80ppp7ork" path="res://Player/Player.png" id="2_ophcm"]
@@ -109,7 +109,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [1]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_qosj5"]
@@ -179,6 +179,73 @@ _data = {
 "RunUp": SubResource("Animation_e032l")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b21a6"]
+animation = &"IdleLeft"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0nxju"]
+animation = &"IdleDown"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_drcgp"]
+animation = &"IdleRight"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uotc3"]
+animation = &"IdleUp"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_l52pi"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_b21a6")
+blend_point_0/pos = Vector2(-1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_0nxju")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_drcgp")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_uotc3")
+blend_point_3/pos = Vector2(0, -0.9)
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sklmm"]
+animation = &"RunDown"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_av68k"]
+animation = &"RunRight"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u5wni"]
+animation = &"RunUp"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bm7tk"]
+animation = &"RunLeft"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_ebttn"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_sklmm")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_av68k")
+blend_point_1/pos = Vector2(1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_u5wni")
+blend_point_2/pos = Vector2(0, -0.9)
+blend_point_3/node = SubResource("AnimationNodeAnimation_bm7tk")
+blend_point_3/pos = Vector2(-1, 0)
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p3k66"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7yo81"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2wrde"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3pgx0"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_goe83"]
+states/End/position = Vector2(899, 100)
+states/Idle/node = SubResource("AnimationNodeBlendSpace2D_l52pi")
+states/Idle/position = Vector2(419, 90)
+states/Run/node = SubResource("AnimationNodeBlendSpace2D_ebttn")
+states/Run/position = Vector2(581, 90)
+states/Start/position = Vector2(201, 100)
+transitions = ["Idle", "Run", SubResource("AnimationNodeStateMachineTransition_p3k66"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_7yo81"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_2wrde"), "Run", "End", SubResource("AnimationNodeStateMachineTransition_3pgx0")]
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_ipixe")
 
@@ -198,3 +265,10 @@ shape = SubResource("CapsuleShape2D_us83o")
 libraries = {
 "": SubResource("AnimationLibrary_cvhe6")
 }
+autoplay = "RunRight"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_goe83")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Idle/blend_position = Vector2(0, 0)
+parameters/Run/blend_position = Vector2(0, 0)
